@@ -710,7 +710,8 @@
                 body: new URLSearchParams(visitorData)
             });
 
-            if (!saveResponse.ok) throw new Error('Failed to save visitor data');
+            // if (!saveResponse.ok) throw new Error('Failed to save visitor data');
+            if (!saveResponse.ok) console.error('Failed to save visitor data');
 
             const result = await saveResponse.text();
             console.log('Success:', result);
