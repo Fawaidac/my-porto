@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visitor Data</title>
+  </head>
+  <body>
+    <h1>Data Pengunjung</h1>
+    <div id="visitor-list"></div>
+    <p>Total Pengunjung: <span id="visitor-count">0</span></p>
+
+    <script>
+      // Fungsi untuk mendapatkan dan menampilkan data pengunjung
+      function fetchVisitors() {
+        fetch("https://portofoliofawaidac.wuaze.com/view_visitors.php") // Memanggil file PHP untuk mengambil data
+          .then((response) => response.json()) // Mengubah data menjadi JSON
+          .then((data) => {
+            const visitorList = document.getElementById("visitor-list");
+            const visitorCount = document.getElementById("visitor-count");
+
+            // Menampilkan jumlah pengunjung
+            visitorCount.textContent = data.length;
+
+            // Menampilkan data pengunjung
+            if (data.length > 0) {
+              data.forEach((visitor) => {
+                const visitorItem = document.createElement("div");
+                visitorItem.innerHTML = `
+                                <p>ID: ${visitor.id} - IP: ${visitor.ip_address} - User Agent: ${visitor.user_agent} - Visit Time: ${visitor.visit_time}</p>
+                            `;
+                visitorList.appendChild(visitorItem);
+              });
+            } else {
+              visitorList.innerHTML = "<p>Tidak ada pengunjung.</p>";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      }
+
+      // Memanggil fungsi untuk mendapatkan data pengunjung saat halaman dimuat
+      window.onload = fetchVisitors;
+    </script>
+  </body>
+</html>
